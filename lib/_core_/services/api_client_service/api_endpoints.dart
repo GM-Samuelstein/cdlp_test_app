@@ -1,3 +1,3 @@
 abstract class ApiEndpoints {
-  static const String dashboardItems = '/dashboard/items';
+  static const String posts = '/posts';
 }

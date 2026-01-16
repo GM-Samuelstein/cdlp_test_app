@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+export 'api_endpoints.dart';
+
 class ApiClientService {
   late final Dio _dio;
 
