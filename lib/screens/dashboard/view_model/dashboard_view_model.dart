@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../services/navigation_service/navigation_service.dart';
+import '../../../_core_/services/navigation_service/navigation_service.dart';
 
 class DashboardViewModel extends ChangeNotifier {
   DashboardViewModel() {

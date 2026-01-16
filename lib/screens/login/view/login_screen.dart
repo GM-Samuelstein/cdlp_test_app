@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../app_widgets/app_button.dart';
-import '../../../app_widgets/app_text_field.dart';
-import '../../../services/navigation_service/navigation_service.dart';
-import '../../../utils/validators.dart';
+import '../../../_core_/app_widgets/app_button.dart';
+import '../../../_core_/app_widgets/app_text_field.dart';
+import '../../../_core_/services/navigation_service/navigation_service.dart';
+import '../../../_core_/utils/validators.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

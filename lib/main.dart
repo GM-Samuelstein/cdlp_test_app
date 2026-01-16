@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'services/navigation_service/navigation_service.dart';
+import '_core_/services/navigation_service/navigation_service.dart';
 
 void main() {
   runApp(const CdlTestApp());
