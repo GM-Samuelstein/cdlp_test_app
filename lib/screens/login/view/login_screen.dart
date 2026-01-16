@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../app_widgets/app_button.dart';
 import '../../../app_widgets/app_text_field.dart';
 import '../../../services/navigation_service/navigation_service.dart';
 import '../../../utils/validators.dart';
@@ -102,31 +103,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 100.h),
 
                 /// Login Button
-                SizedBox(
-                  height: 54.h,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black87,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        navigationService.navigateToAndRemoveAll(
-                          destinationScreen: AppRoutes.dashboardScreen,
-                        );
-                      }
-                    },
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                AppButton(
+                  text: 'Login',
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      navigationService.navigateToAndRemoveAll(
+                        destinationScreen: AppRoutes.dashboardScreen,
+                      );
+                    }
+                  },
                 ),
 
                 SizedBox(height: 24.h),
