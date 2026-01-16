@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'services/navigation_service/navigation_service.dart';
 
@@ -11,10 +12,15 @@ class CdlTestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigationService.navigatorKey,
-      debugShowCheckedModeBanner: false,
-      home: AppRoutes.loginScreen,
+    return ScreenUtilInit(
+      designSize: const Size(430, 932),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MaterialApp(
+        navigatorKey: navigationService.navigatorKey,
+        debugShowCheckedModeBanner: false,
+        home: AppRoutes.loginScreen,
+      ),
     );
   }
 }

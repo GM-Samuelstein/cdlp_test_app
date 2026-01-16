@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widgets/dashboard_item_card.dart';
 import '../widgets/profile_card.dart';
@@ -20,30 +21,30 @@ class DashboardScreen extends StatelessWidget {
         centerTitle: false,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
 
             /// Profile Summary Card
             ProfileCard(),
 
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
 
             /// Section Title
-            const Text(
+            Text(
               'Recent Items',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
             ),
 
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
 
             /// Items List
             Expanded(
               child: ListView.separated(
                 itemCount: 6,
-                separatorBuilder: (_, _) => const SizedBox(height: 12),
+                separatorBuilder: (_, _) => SizedBox(height: 12.h),
                 itemBuilder: (context, index) {
                   return const DashboardItemCard();
                 },

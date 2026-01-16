@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../app_widgets/app_text_field.dart';
 import '../../../services/navigation_service/navigation_service.dart';
 import '../../../utils/validators.dart';
-import '../../../app_widgets/app_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,28 +38,31 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: const Color(0xFFF5F7FA),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Form(
             key: _formKey,
             autovalidateMode: .onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 100),
+                SizedBox(height: 100.h),
 
-                Icon(Icons.lock_outline, size: 56, color: Colors.black87),
-                SizedBox(height: 30),
+                Icon(Icons.lock_outline, size: 56.sp, color: Colors.black87),
+                SizedBox(height: 30.h),
                 Text(
                   'Welcome!',
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 26.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
                   'Login to continue',
-                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                  style: TextStyle(fontSize: 14.sp, color: Colors.black54),
                 ),
 
-                const SizedBox(height: 40),
+                SizedBox(height: 40.h),
 
                 /// Email Field
                 AppTextField(
@@ -69,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   validator: Validators.email,
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 /// Password Field
                 AppTextField(
@@ -95,11 +99,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       Validators.minLength(value, 6, fieldName: 'Password'),
                 ),
 
-                const SizedBox(height: 100),
+                SizedBox(height: 100.h),
 
                 /// Login Button
                 SizedBox(
-                  height: 54,
+                  height: 54.h,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black87,
@@ -114,17 +118,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       }
                     },
-                    child: const Text(
+                    child: Text(
                       'Login',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
+                        color: Colors.white,
                       ),
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
               ],
             ),
           ),
