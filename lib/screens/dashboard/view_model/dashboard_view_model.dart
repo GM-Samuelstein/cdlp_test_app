@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../_core_/models/post_model.dart';
 import '../../../_core_/repositories/posts_repository.dart';
+import '../../../_core_/services/api_client_service/api_result.dart';
 import '../../../_core_/services/navigation_service/navigation_service.dart';
+import '../../../_core_/services/snackbar_service/snackbar_service.dart';
 import '../../../dependencies.dart';
 
 class DashboardViewModel extends ChangeNotifier {
@@ -70,11 +72,17 @@ class DashboardViewModel extends ChangeNotifier {
   /// ========================================
   Future<void> fetchPosts() async {
     _setLoading(true);
-    final data = await _repository.fetchPosts();
 
-    _posts
-      ..clear()
-      ..addAll(data.take(24));
+    final result = await _repository.fetchPosts();
+
+    if (result is ApiSuccess<List<PostModel>>) {
+      _posts
+        ..clear()
+        ..addAll(result.data.take(24));
+    } else if (result is ApiFailure<List<PostModel>>) {
+      SnackbarService.showSnackBar(result.message);
+    }
+
     _setLoading(false);
   }
 
@@ -82,23 +90,39 @@ class DashboardViewModel extends ChangeNotifier {
   /// createPost
   /// ========================================
   Future<void> createPost(String title, String body) async {
-    final created = await _repository.createPost(title: title, body: body);
+    _setLoading(true);
 
-    _posts.insert(0, created.copyWith());
-    notifyListeners();
+    final result = await _repository.createPost(title: title, body: body);
+
+    if (result is ApiSuccess<PostModel>) {
+      _posts.insert(0, result.data);
+      notifyListeners();
+    } else if (result is ApiFailure<PostModel>) {
+      SnackbarService.showSnackBar(result.message);
+    }
+
+    _setLoading(false);
   }
 
   /// ========================================
   ///  updatePost
   /// ========================================
   Future<void> updatePost(PostModel post) async {
-    final updated = await _repository.updatePost(post);
+    _setLoading(true);
 
-    final index = _posts.indexWhere((p) => p.id == post.id);
-    if (index != -1) {
-      _posts[index] = updated;
-      notifyListeners();
+    final result = await _repository.updatePost(post);
+
+    if (result is ApiSuccess<PostModel>) {
+      final index = _posts.indexWhere((p) => p.id == post.id);
+      if (index != -1) {
+        _posts[index] = result.data;
+        notifyListeners();
+      }
+    } else if (result is ApiFailure<PostModel>) {
+      SnackbarService.showSnackBar(result.message);
     }
+
+    _setLoading(false);
   }
 }
 
