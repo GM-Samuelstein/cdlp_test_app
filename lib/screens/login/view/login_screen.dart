@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../services/navigation_service/navigation_service.dart';
 import '../../../utils/validators.dart';
-import '../../../widgets/app_text_field.dart';
+import '../../../app_widgets/app_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -108,7 +109,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // TODO: handle login
+                        navigationService.navigateToAndRemoveAll(
+                          destinationScreen: AppRoutes.dashboardScreen,
+                        );
                       }
                     },
                     child: const Text(
