@@ -35,7 +35,7 @@ class ProfileCard extends StatelessWidget {
               ),
               SizedBox(height: 4),
               Text(
-                'samuel@example.com',
+                'samuelibitowa@gmail.com',
                 style: TextStyle(fontSize: 13.sp, color: Colors.black54),
               ),
             ],
