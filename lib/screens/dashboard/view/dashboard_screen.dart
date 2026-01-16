@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../services/navigation_service/navigation_service.dart';
 import '../widgets/dashboard_item_card.dart';
 import '../widgets/profile_card.dart';
 
@@ -19,6 +20,14 @@ class DashboardScreen extends StatelessWidget {
           style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.black87),
+            onPressed: () {
+              logOut(context);
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -52,6 +61,33 @@ class DashboardScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void logOut(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: const Text('Log out'),
+        content: const Text('Are you sure you want to log out?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              navigationService.navigateToAndRemoveAll(
+                destinationScreen: AppRoutes.loginScreen,
+                direction: .left,
+              );
+            },
+            child: const Text('Log out'),
+          ),
+        ],
       ),
     );
   }
