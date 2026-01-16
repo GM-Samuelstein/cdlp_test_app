@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../_core_/app_widgets/loading_widget.dart';
 import '../view_model/dashboard_view_model.dart';
-import '../widgets/dashboard_item_card.dart';
+import '../widgets/post_item_card.dart';
 import '../widgets/profile_card.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -49,7 +50,7 @@ class DashboardScreen extends StatelessWidget {
 
                 /// Section Title
                 Text(
-                  'Recent Items',
+                  'Recent Posts',
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
@@ -60,13 +61,36 @@ class DashboardScreen extends StatelessWidget {
 
                 /// Items List
                 Expanded(
-                  child: ListView.separated(
-                    itemCount: 6,
-                    separatorBuilder: (_, _) => SizedBox(height: 12.h),
-                    itemBuilder: (context, index) {
-                      return const DashboardItemCard();
-                    },
-                  ),
+                  child: dashboardViewModel.isLoading
+                      ? ListView.separated(
+                          itemCount: 4,
+                          separatorBuilder: (_, _) => SizedBox(height: 12.h),
+                          itemBuilder: (context, index) {
+                            return LoadingWidget(
+                              width: double.infinity,
+                              height: 100.h,
+                            );
+                          },
+                        )
+                      : dashboardViewModel.posts.isEmpty
+                      ? Center(
+                          child: Text(
+                            'No posts available.',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        )
+                      : ListView.separated(
+                          itemCount: dashboardViewModel.posts.length,
+                          separatorBuilder: (_, _) => SizedBox(height: 12.h),
+                          itemBuilder: (context, index) {
+                            final post = dashboardViewModel.posts[index];
+
+                            return PostItemCard(post: post);
+                          },
+                        ),
                 ),
               ],
             ),
