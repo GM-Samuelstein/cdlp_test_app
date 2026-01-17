@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../_core_/models/post_model.dart';
+import '../../../_core_/repositories/auth_repository.dart';
 import '../../../_core_/repositories/posts_repository.dart';
 import '../../../_core_/services/api_client_service/api_result.dart';
 import '../../../_core_/services/navigation_service/navigation_service.dart';
@@ -55,6 +56,9 @@ class DashboardViewModel extends ChangeNotifier {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
+
+              authRepository.logout();
+
               navigationService.navigateToAndRemoveAll(
                 destinationScreen: AppRoutes.loginScreen,
                 direction: .left,

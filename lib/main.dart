@@ -19,7 +19,7 @@ class CdlTestApp extends StatelessWidget {
       child: MaterialApp(
         navigatorKey: navigationService.navigatorKey,
         debugShowCheckedModeBanner: false,
-        home: AppRoutes.loginScreen,
+        home: AppRoutes.startup,
       ),
     );
   }

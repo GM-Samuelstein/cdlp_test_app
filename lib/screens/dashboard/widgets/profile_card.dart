@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../_core_/models/user_model.dart';
+
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({super.key});
+  const ProfileCard({super.key, this.user});
+
+  final UserModel? user;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +34,12 @@ class ProfileCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Samuel Ibitowa',
+                user?.fullName ?? "Guest",
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 4),
               Text(
-                'samuelibitowa@gmail.com',
+                user?.email ?? '',
                 style: TextStyle(fontSize: 13.sp, color: Colors.black54),
               ),
             ],
