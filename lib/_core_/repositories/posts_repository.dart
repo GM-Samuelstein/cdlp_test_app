@@ -3,17 +3,16 @@ import '../services/api_client_service/api_client_service.dart';
 import '../services/api_client_service/api_result.dart';
 
 class PostsRepository {
-  final ApiClientService _api;
+  final ApiClientService _apiClientService;
 
-  PostsRepository(this._api);
+  PostsRepository(this._apiClientService);
 
   // --------------------------------------------------
   // FETCH POSTS (LIST)
   // --------------------------------------------------
   Future<ApiResult<List<PostModel>>> fetchPosts() async {
-    final ApiResult<List<dynamic>> result = await _api.get<List<dynamic>>(
-      ApiEndpoints.posts,
-    );
+    final ApiResult<List<dynamic>> result = await _apiClientService
+        .get<List<dynamic>>(ApiEndpoints.posts);
 
     if (result is ApiSuccess<List<dynamic>>) {
       final posts = result.data
@@ -34,7 +33,7 @@ class PostsRepository {
   // FETCH SINGLE POST
   // --------------------------------------------------
   Future<ApiResult<PostModel>> fetchPost(int id) async {
-    final ApiResult<Map<String, dynamic>> result = await _api
+    final ApiResult<Map<String, dynamic>> result = await _apiClientService
         .get<Map<String, dynamic>>('${ApiEndpoints.posts}/$id');
 
     if (result is ApiSuccess<Map<String, dynamic>>) {
@@ -56,7 +55,7 @@ class PostsRepository {
     required String title,
     required String body,
   }) async {
-    final ApiResult<Map<String, dynamic>> result = await _api
+    final ApiResult<Map<String, dynamic>> result = await _apiClientService
         .post<Map<String, dynamic>>(
           ApiEndpoints.posts,
           data: {'title': title, 'body': body, 'userId': 1},
@@ -78,7 +77,7 @@ class PostsRepository {
   // UPDATE POST (SIMULATED PERSISTENCE)
   // --------------------------------------------------
   Future<ApiResult<PostModel>> updatePost(PostModel post) async {
-    final ApiResult<Map<String, dynamic>> result = await _api
+    final ApiResult<Map<String, dynamic>> result = await _apiClientService
         .put<Map<String, dynamic>>(
           '${ApiEndpoints.posts}/${post.id}',
           data: post.toJson(),

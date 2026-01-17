@@ -9,9 +9,9 @@ import '../../../_core_/services/snackbar_service/snackbar_service.dart';
 import '../../../dependencies.dart';
 
 class DashboardViewModel extends ChangeNotifier {
-  final PostsRepository _repository;
+  final PostsRepository _postsRepository;
 
-  DashboardViewModel(this._repository) {
+  DashboardViewModel(this._postsRepository) {
     init();
   }
 
@@ -77,7 +77,7 @@ class DashboardViewModel extends ChangeNotifier {
   Future<void> fetchPosts() async {
     _setLoading(true);
 
-    final result = await _repository.fetchPosts();
+    final result = await _postsRepository.fetchPosts();
 
     if (result is ApiSuccess<List<PostModel>>) {
       _posts
@@ -96,7 +96,7 @@ class DashboardViewModel extends ChangeNotifier {
   Future<void> createPost(String title, String body) async {
     _setLoading(true);
 
-    final result = await _repository.createPost(title: title, body: body);
+    final result = await _postsRepository.createPost(title: title, body: body);
 
     if (result is ApiSuccess<PostModel>) {
       _posts.insert(0, result.data);
@@ -114,7 +114,7 @@ class DashboardViewModel extends ChangeNotifier {
   Future<void> updatePost(PostModel post) async {
     _setLoading(true);
 
-    final result = await _repository.updatePost(post);
+    final result = await _postsRepository.updatePost(post);
 
     if (result is ApiSuccess<PostModel>) {
       final index = _posts.indexWhere((p) => p.id == post.id);
