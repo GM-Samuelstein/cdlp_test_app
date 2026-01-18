@@ -27,7 +27,7 @@ class Validators {
     int length, {
     String fieldName = 'This field',
   }) {
-    if (value == null || value.isEmpty) {
+    if (value == null || value.trim().isEmpty) {
       return '$fieldName is required';
     } else if (value.length < length) {
       return '$fieldName must be at least $length characters';

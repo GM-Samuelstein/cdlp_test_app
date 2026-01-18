@@ -1,9 +1,9 @@
-import 'package:cdlp_test_app/_core_/services/navigation_service/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../_core_/models/post_model.dart';
-import '../view/post_details_screen.dart';
+import '../../../_core_/services/navigation_service/navigation_service.dart';
+import '../view_model/dashboard_view_model.dart';
 
 class PostItemCard extends StatelessWidget {
   final PostModel post;
@@ -14,8 +14,9 @@ class PostItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        dashboardViewModel.setSelectedPost(post);
         navigationService.navigateTo(
-          destinationScreen: PostDetailsScreen(post: post),
+          destinationScreen: AppRoutes.postDetailsScreen,
         );
       },
       child: Card(

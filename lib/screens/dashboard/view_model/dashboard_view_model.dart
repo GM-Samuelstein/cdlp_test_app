@@ -37,6 +37,17 @@ class DashboardViewModel extends ChangeNotifier {
   final List<PostModel> _posts = [];
   List<PostModel> get posts => List.unmodifiable(_posts);
 
+  /// ========================================
+  /// selected post
+  /// ========================================
+  PostModel? _selectedPost;
+  PostModel? get selectedPost => _selectedPost;
+
+  void setSelectedPost(PostModel? post) {
+    _selectedPost = post;
+    notifyListeners();
+  }
+
   //////////////////////////////////////////////// [Methods]
   /// ========================================
   /// logout
@@ -91,28 +102,44 @@ class DashboardViewModel extends ChangeNotifier {
   }
 
   /// ========================================
+  /// goToCreatePost
+  /// ========================================
+  void goToCreatePost() {
+    setSelectedPost(null);
+    navigationService.navigateTo(destinationScreen: AppRoutes.postFormScreen);
+  }
+
+  /// ========================================
   /// createPost
   /// ========================================
-  Future<void> createPost(String title, String body) async {
-    _setLoading(true);
-
+  Future<bool> createPost({required String title, required String body}) async {
     final result = await _postsRepository.createPost(title: title, body: body);
 
     if (result is ApiSuccess<PostModel>) {
       _posts.insert(0, result.data);
       notifyListeners();
+      SnackbarService.showSnackBar("Post created successfully.");
+      return true;
     } else if (result is ApiFailure<PostModel>) {
       SnackbarService.showSnackBar(result.message);
+      return false;
     }
 
-    _setLoading(false);
+    return false;
+  }
+
+  /// ========================================
+  /// goToEditPost
+  /// ========================================
+  void goToEditPost() {
+    navigationService.navigateTo(destinationScreen: AppRoutes.postFormScreen);
   }
 
   /// ========================================
   ///  updatePost
   /// ========================================
-  Future<void> updatePost(PostModel post) async {
-    _setLoading(true);
+  Future<bool> updatePost({required String title, required String body}) async {
+    PostModel post = _selectedPost!.copyWith(title: title, body: body);
 
     final result = await _postsRepository.updatePost(post);
 
@@ -120,13 +147,17 @@ class DashboardViewModel extends ChangeNotifier {
       final index = _posts.indexWhere((p) => p.id == post.id);
       if (index != -1) {
         _posts[index] = result.data;
+        setSelectedPost(result.data);
         notifyListeners();
+        SnackbarService.showSnackBar("Post updated successfully.");
+        return true;
       }
     } else if (result is ApiFailure<PostModel>) {
       SnackbarService.showSnackBar(result.message);
+      return false;
     }
 
-    _setLoading(false);
+    return false;
   }
 }
 

@@ -13,6 +13,20 @@ class ApiException implements Exception {
   ApiException(this.message, {this.statusCode});
 
   factory ApiException.fromDioError(DioException error) {
+    if (error.type == DioExceptionType.badResponse) {
+      final data = error.response?.data;
+
+      String message = 'Server error';
+
+      if (data is Map<String, dynamic>) {
+        message = data['message']?.toString() ?? message;
+      } else if (data is String) {
+        message = data;
+      }
+
+      return ApiException(message, statusCode: error.response?.statusCode);
+    }
+
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
         return ApiException('Connection timeout');
@@ -20,14 +34,8 @@ class ApiException implements Exception {
         return ApiException('Request timeout');
       case DioExceptionType.receiveTimeout:
         return ApiException('Response timeout');
-      case DioExceptionType.badResponse:
-        return ApiException(
-          error.response?.data['message'] ?? 'Server error',
-          statusCode: error.response?.statusCode,
-        );
       case DioExceptionType.cancel:
         return ApiException('Request cancelled');
-
       default:
         return ApiException('Unexpected error occurred');
     }
@@ -36,7 +44,6 @@ class ApiException implements Exception {
 
 class ApiExceptionMapper {
   static ApiFailure<T> map<T>(DioException error) {
-    // No internet / DNS / socket issues
     if (error.error is SocketException) {
       return const ApiFailure(
         'No internet connection. Please check your network.',
@@ -46,17 +53,29 @@ class ApiExceptionMapper {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
         return const ApiFailure('Connection timeout');
+
       case DioExceptionType.sendTimeout:
         return const ApiFailure('Request timeout');
+
       case DioExceptionType.receiveTimeout:
         return const ApiFailure('Response timeout');
+
       case DioExceptionType.badResponse:
-        return ApiFailure(
-          error.response?.data['message'] ?? 'Server error',
-          statusCode: error.response?.statusCode,
-        );
+        final data = error.response?.data;
+
+        String message = 'Server error';
+
+        if (data is Map<String, dynamic>) {
+          message = data['message']?.toString() ?? message;
+        } else if (data is String) {
+          message = data;
+        }
+
+        return ApiFailure(message, statusCode: error.response?.statusCode);
+
       case DioExceptionType.cancel:
         return const ApiFailure('Request cancelled');
+
       default:
         return const ApiFailure('Unexpected network error');
     }

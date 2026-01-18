@@ -106,6 +106,11 @@ class DashboardScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              floatingActionButton: FloatingActionButton(
+                backgroundColor: Colors.black,
+                onPressed: dashboardViewModel.goToCreatePost,
+                child: const Icon(Icons.add, color: Colors.white),
+              ),
             ),
           );
         },
